@@ -1,0 +1,19 @@
+{
+  "name": "artinvidio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheAlexandru/artinvid.io.git"
+  },
+  "author": "Artin Alexandru",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheAlexandru/artinvid.io/issues"
+  },
+  "homepage": "https://github.com/TheAlexandru/artinvid.io#readme"
+}
