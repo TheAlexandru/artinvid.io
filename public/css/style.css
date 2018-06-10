@@ -142,6 +142,7 @@ body, html{
 		margin-left: 28%;
 		margin-top: 20px;
 		padding: 4px;
+		display:block;
 	}
 
 	.search_btn{

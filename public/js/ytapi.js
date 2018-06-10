@@ -2,7 +2,8 @@ const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleuser
 let channels =[];
 let videos = [];
 let totalResults = 0;
-
+let newvideos =[];
+var temp = 0;
 
 /***** START BOILERPLATE CODE: Load client library, authorize user. *****/
 
@@ -50,6 +51,7 @@ let totalResults = 0;
     isAuthorized = user.hasGrantedScopes('https://www.googleapis.com/auth/youtube.force-ssl https://www.googleapis.com/auth/youtubepartner');
     // Toggle button text and displayed statement based on current auth status.
     if (isAuthorized) {
+      // getTodayVideos()
       defineRequest();
     }
   }
@@ -98,37 +100,42 @@ let totalResults = 0;
     return params;
   }
 
-  function executeRequest(request) {
+  function executeRequest(request,type) {
+    console.log('TYPE:',type)
     request.execute(function(response) {
-      // console.log(response)
-      if(totalResults < response.pageInfo.totalResults){
-        totalResults+=response.items.length;
-        
-        $(response.items).each((e,b)=>{
-          channels.push(b);
-        })
-         buildApiRequest('GET',
-                '/youtube/v3/subscriptions',
-                {'mine': 'true',
-                  'pageToken': `${response.nextPageToken}`,
-                  'maxResults': '50',
-                 'part': 'snippet,contentDetails'});
-      }else{
-        console.log('Total channels',totalResults);
-        // console.log('finished',channels);
-        getLastVideos();
+      if(type==='getsubs'){
+        if(totalResults < response.pageInfo.totalResults){
+          totalResults+=response.items.length;
+          
+          $(response.items).each((e,b)=>{
+            channels.push(b);
+          })
+           buildApiRequest('GET',
+                  '/youtube/v3/subscriptions',
+                  {'mine': 'true',
+                    'pageToken': `${response.nextPageToken}`,
+                    'maxResults': '50',
+                   'part': 'snippet,contentDetails'},'getsubs');
+        }else{
+          getLastVideos();
+        }
       }
-      
-    //save all channels
-      // channels.push(response.items)
-      // if(respnse.pageInfo.totalResults>25){
-      //   for()
-      // }
-      // lastVideo();
+      if(type==='getvid'){
+        for(i ; i < channels.length; i++){
+          if(response.items != null && response.items != undefined && response.items != 0){
+            $(response.items).each((e,b)=>{
+              newvideos.push(b);
+            })
+          }
+          getLastVideos();
+        }
+
+      }
+
     });
   }
 
-  function buildApiRequest(requestMethod, path, params, properties) {
+  function buildApiRequest(requestMethod, path, params, properties ) {
     params = removeEmptyParams(params);
     var request;
     if (properties) {
@@ -146,7 +153,7 @@ let totalResults = 0;
           'params': params
       });
     }
-    executeRequest(request);
+    executeRequest(request, properties);
   }
 
   /***** END BOILERPLATE CODE *****/
@@ -159,28 +166,46 @@ let totalResults = 0;
                 {'mine': 'true',
                   // 'order': 'unread',
                   'maxResults': '50',
-                 'part': 'snippet,contentDetails'});
+                 'part': 'snippet,contentDetails'},'getsubs');
 
   }
 
 
+
+function getTodayVideos(){
+
+}
+
+
 function getLastVideos(){
-  console.log(channels)
-    $(channels).each((index,value)=>{
-      $.get( `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channels[index].snippet.resourceId.channelId}&maxResults=5&order=date&type=video&key=AIzaSyAy0dpcKG7ZRz2TcVkSL3-DS2ig4YrLoew `
-        ).done((data)=>{
-        // $(data.items).each((index,value)=>{
-        //   videos.push(value);
-        // })
-          addVideo(data);
-          if (index+1 === channels.length) {
-              sortVideos();
-              // setTimeout(sortVideos,2000);
-          }
-      });
+
+    var d = new Date();
+        d.setDate(d.getDate() - 1);
+    d = d.toISOString();
+
+
+    buildApiRequest('GET',
+                '/youtube/v3/activities',
+                {'channelId': `${channels[0].snippet.resourceId.channelId}`,
+                 'maxResults': '10',
+                 'publishedAfter' : `${d}`,
+                 'part': 'snippet,contentDetails'},'getvid');
+
+
+
+
+    // $(channels).each((index,value)=>{
+    //   $.get( `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channels[index].snippet.resourceId.channelId}&maxResults=5&order=date&type=video&key=AIzaSyAy0dpcKG7ZRz2TcVkSL3-DS2ig4YrLoew `
+    //     ).done((data)=>{
+
+    //       addVideo(data);
+    //       if (index+1 === channels.length) {
+    //           sortVideos();
+    //       }
+    //   });
         
        
-    })
+    // })
    
     
 }
@@ -199,9 +224,14 @@ function sortVideos(){
     return a>b ? -1 : a<b ? 1 : 0;
   });
 
-  console.log(videos);
+  displayFeed();
 }
 
+function displayFeed(){
+  // console.log(videos)
+  // console.log(videos[0].snippet.thumbnails.medium)
+    $(container).append($('<img>').attr('src',videos[0].snippet.thumbnails.medium.url))
+}
 
 
 

@@ -48,6 +48,8 @@ function desktop(){
 		$(this).addClass('active');
 		newTab(this.id);
 	});
+	
+
 
 	//#### END LOADTABS ####
 
@@ -57,3 +59,5 @@ function mobile(){
 	console.log('mobile')
 	alert('mobile');
 }
+
+
