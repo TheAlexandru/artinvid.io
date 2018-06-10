@@ -1,5 +1,7 @@
 const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleusercontent.com";
-
+let channels =[];
+let videos = [];
+let totalResults = 0;
 
 
 /***** START BOILERPLATE CODE: Load client library, authorize user. *****/
@@ -33,10 +35,8 @@ const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleuser
       // Handle initial sign-in state. (Determine if user is already signed in.)
       setSigninStatus();
 
-      // Call handleAuthClick function when user clicks on "Authorize" button.
-      $('#execute-request-button').click(function() {
-        handleAuthClick(event);
-      }); 
+
+      //here was click func
     });
   }
 
@@ -100,7 +100,31 @@ const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleuser
 
   function executeRequest(request) {
     request.execute(function(response) {
-      console.log(response);
+      // console.log(response)
+      if(totalResults < response.pageInfo.totalResults){
+        totalResults+=response.items.length;
+        
+        $(response.items).each((e,b)=>{
+          channels.push(b);
+        })
+         buildApiRequest('GET',
+                '/youtube/v3/subscriptions',
+                {'mine': 'true',
+                  'pageToken': `${response.nextPageToken}`,
+                  'maxResults': '50',
+                 'part': 'snippet,contentDetails'});
+      }else{
+        console.log('Total channels',totalResults);
+        // console.log('finished',channels);
+        getLastVideos();
+      }
+      
+    //save all channels
+      // channels.push(response.items)
+      // if(respnse.pageInfo.totalResults>25){
+      //   for()
+      // }
+      // lastVideo();
     });
   }
 
@@ -129,12 +153,55 @@ const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleuser
 
   
   function defineRequest() {
-    // See full sample for buildApiRequest() code, which is not 
-// specific to a particular API or API method.
 
-buildApiRequest('GET',
+    buildApiRequest('GET',
                 '/youtube/v3/subscriptions',
-                {'channelId': 'UC_x5XG1OV2P6uZZ5FSM9Ttw',
+                {'mine': 'true',
+                  // 'order': 'unread',
+                  'maxResults': '50',
                  'part': 'snippet,contentDetails'});
 
   }
+
+
+function getLastVideos(){
+  console.log(channels)
+    $(channels).each((index,value)=>{
+      $.get( `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channels[index].snippet.resourceId.channelId}&maxResults=5&order=date&type=video&key=AIzaSyAy0dpcKG7ZRz2TcVkSL3-DS2ig4YrLoew `
+        ).done((data)=>{
+        // $(data.items).each((index,value)=>{
+        //   videos.push(value);
+        // })
+          addVideo(data);
+          if (index+1 === channels.length) {
+              sortVideos();
+              // setTimeout(sortVideos,2000);
+          }
+      });
+        
+       
+    })
+   
+    
+}
+
+function addVideo(data){
+   $(data.items).each((index,value)=>{
+          videos.push(value);
+    })
+}
+
+function sortVideos(){
+
+  videos.sort(function(a, b) {
+    a = new Date(a.snippet.publishedAt);
+    b = new Date(b.snippet.publishedAt);
+    return a>b ? -1 : a<b ? 1 : 0;
+  });
+
+  console.log(videos);
+}
+
+
+
+

@@ -1,4 +1,6 @@
 const container = $('.container');
+const socket = io();
+// import { handleClientLoad } from './ytapi.js';
 $(document).ready(function(){
       var win = $(this); 
       if (win.width() <= 799) { mobile()  }
@@ -15,6 +17,8 @@ function desktop(){
 				$('<input>').attr({type:'text',placeholder:'Search'}).addClass('form-control')
 			).append( $('<div>').addClass('search_btn') )
 		)
+		handleClientLoad();
+		// socket.emit('load_subs');
 	}
 
 	function loadSettings(){
@@ -25,7 +29,12 @@ function desktop(){
 		$(container).html(
 			$('<button>').attr('id','execute-request-button').html('Login')
 		)
-		handleClientLoad();
+			  // Call handleAuthClick function when user clicks on "Authorize" button.
+	      $('#execute-request-button').click(function() {
+	        handleAuthClick(event);
+	        
+	      }); 
+
 	}
 
 	function newTab(e){

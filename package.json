@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/TheAlexandru/artinvid.io/issues"
   },
-  "homepage": "https://github.com/TheAlexandru/artinvid.io#readme"
+  "homepage": "https://github.com/TheAlexandru/artinvid.io#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "express-static": "^1.2.5",
+    "socket.io": "^2.1.1"
+  }
 }
