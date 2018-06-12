@@ -17,6 +17,11 @@ function desktop(){
 				$('<input>').attr({type:'text',placeholder:'Search'}).addClass('form-control')
 			).append( $('<div>').addClass('search_btn') )
 		)
+
+		//if channels list was loaded in last 1 hour don't reload again
+		if(channels!=0 && channels != null && channels != undefined){
+			handleClientLoad('getvid');
+		}
 		handleClientLoad();
 		// socket.emit('load_subs');
 	}
@@ -54,6 +59,8 @@ function desktop(){
 	//#### END LOADTABS ####
 
 }
+
+
 
 function mobile(){
 	console.log('mobile')
