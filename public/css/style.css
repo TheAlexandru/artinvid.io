@@ -173,12 +173,146 @@ body, html{
   		margin: 0 auto;
   		margin-top:100px;
   		padding: 0px;
+  		/*padding-left: 120px;*/
+  		width: 1040px;
 	}
 
 	.col-sm-3{
 		min-width: 321px;
-		margin-left:20px;
+		min-height: 270px;
+		margin-left:15px;
+
 	}
+
+	.col-sm-3:hover{
+		cursor:pointer;
+	}
+	.vdtitle{
+		color:#F5FBFF;
+	}
+	.chn-name{
+		color:#ADB4B8;
+	}
+	.size-vd-container{
+		width: 100%;
+		margin:0 auto;
+		border:1px solid red;
+	}
+	
+	#content{
+		margin-top: 20px;	
+	}
+
+/* Loader */
+	.loader {
+	  border: 9px solid #f3f3f3;
+	  border-radius: 50%;
+	  border-top: 9px solid #242424;
+	  width: 90px;
+	  height: 90px;
+	  -webkit-animation: spin 1s linear infinite; /* Safari */
+	  animation: spin 1s linear infinite;
+	   margin: 22% auto;
+		
+	}
+
+	/* Safari */
+	@-webkit-keyframes spin {
+	  0% { -webkit-transform: rotate(0deg); }
+	  100% { -webkit-transform: rotate(360deg); }
+	}
+
+	@keyframes spin {
+	  0% { transform: rotate(0deg); }
+	  100% { transform: rotate(360deg); }
+	}
+/* end loader */
+
+/* LOGIN PANEL */
+	.login-panel{
+		width:300px;
+		background: #fff;
+		border-radius: 2px;
+		display: inline-block;
+		margin-top: 15%;
+		position: relative;
+		width: 300px;
+		margin-left:37%;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  		transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	}
+	.login-panel:hover{
+		box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	}
+
+	.login-body{ text-align:center;padding-top:20px} 
+
+	.yt-logo{
+		background:url('../images/yt-logo.png') no-repeat;
+		background-size: 51px;
+		background-position: center;
+		width:51px;
+		height: 40px;
+		margin:0 auto;
+	}
+	.login-footer{ border-radius:0px;border:0px }
+
+	#execute-request-button{
+		text-align:center;
+		background-color: #2792E5; 
+		color: white;
+		border:0px;
+		padding:8px; 
+		width:268px;
+	}
+
+/* end login */
+
+/* PROFILE */
+	.profile_panel{
+		width:700px; 
+		margin:10% auto;
+
+	}
+	.profile_panel:hover{ cursor: default; }
+	#usr-photo{
+		
+	}
+	.type-name, .type-response{
+		
+		padding:6px;
+		border-top:1px solid #D5D5D5;
+	}
+
+	.type-name{
+		float: left;
+		width:180px;
+	}
+	.type-response{
+		width: 100%;
+	}
+	.login-row{ margin-top:0px; }
+
+	.profile-Menulist{
+		width: 100px;
+		height: 100%;
+		float: left;
+	}
+
+	.nav .active{
+		background-color: #F3F3F3;
+	}
+
+	.profile-openedMenu{
+		float: right;
+
+		width:500px;
+	}
+	.profile_panel ul {margin-top: 10px;}
+	.profile_panel ul li{ padding: 2px; }
+	.profile_panel ul li:hover{ cursor: pointer; }
+
+/* end profile*/
 
 }
 
@@ -201,7 +335,7 @@ body, html{
 	.container{
 		position: absolute;
 		overflow: auto;
-				top: 0;
+		top: 0;
 	    bottom: 0;
 	    left: 0;
 	    right: 0;

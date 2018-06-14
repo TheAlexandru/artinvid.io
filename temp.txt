@@ -1,0 +1,19 @@
+<div class="container">
+  <h2></h2>
+  <div class="panel-group profile_panel">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h4>Profile</h4></div>
+      <div class="panel-body">
+       <div class="col-sm-2">
+          <div id='usr-photo'>photo</div>
+       </div>
+       <div class="col-sm-10">
+          <div class="col-sm-3 profile-details" style="">Name</div>
+          <div class="col-sm-9" style="padding:6px;border-top:1px solid #D5D5D5">myname</div>
+       </div>
+      </div>
+  </div>
+
+   
+  </div>
+</div>
