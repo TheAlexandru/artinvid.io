@@ -1,5 +1,5 @@
 const container = $('.container');
-const socket = io();
+// const socket = io();
 // import { handleClientLoad } from './ytapi.js';
 $(document).ready(function(){
       var win = $(this); 
@@ -46,13 +46,17 @@ function desktop(){
 				  $('.loader').remove();
 				  for(var i =0; i<savedvideos.length;i++){
 				  $('.vd-container').append(
-				    $('<div>').addClass('col-sm-3 test').attr('id',savedvideos[i].id.videoId).append($('<img>').attr('src',savedvideos[i].snippet.thumbnails.medium.url)).append(
+				    $('<div>').addClass('col-sm-3 test').append($('<img>').attr('src',savedvideos[i].snippet.thumbnails.medium.url)
+				    	.attr('id',savedvideos[i].id.videoId)).append(
 				        $('<h5>').addClass('vdtitle').html(savedvideos[i].snippet.title)
 				      ).append(
 				        $('<h6>').addClass('chn-name').html(savedvideos[i].snippet.channelTitle)
 				      )
 				  );
 				}
+				  $('.vd-container .col-sm-3 img').click((event)=>{					  	
+				  	openVideoPlayer(event.target.id); 
+				  })
 			}else{
 				//refresh content
 				handleClientLoad();

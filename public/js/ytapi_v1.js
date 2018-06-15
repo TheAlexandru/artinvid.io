@@ -5,7 +5,7 @@ let titles = [];
 let totalResults = 0;
 let newvideos =[];
 var temp = 0;
-var playvideoID ='';
+
 
 /***** START BOILERPLATE CODE: Load client library, authorize user. *****/
 
@@ -482,14 +482,20 @@ function loadLoginPanel(){
 
 //#### Open video player ####//
 function openVideoPlayer(id){
-  // $('.menu_link active').removeClass('active');
-      playvideoID = id;
-      window.location = 'player';
+  
+  let findVideo = JSON.parse(localStorage.getItem('subsVidList'));
+  //#### Find clicked video in all video list to show description and title ####
+  for(var i =0; i< findVideo.length; i++){
+    if(findVideo[i].id.videoId === id){
+
+      videoData = findVideo[i];
+      showvdPlayer(findVideo[i]);
+    }
   }
   //end find video
   
 function showvdPlayer(videoData){
-
+  console.log(videoData);
   // $.getJSON(`https://www.googleapis.com/youtube/v3/videos?id=${id}&key=AIzaSyAy0dpcKG7ZRz2TcVkSL3-DS2ig4YrLoew&part=snippet&callback=?`,function(data){
     // if (typeof(data.items[0]) != "undefined") {
         // videoData = data;
@@ -532,6 +538,7 @@ function showvdPlayer(videoData){
         // console.log('video not exists');
      // }   
     // });
+}
 
 }
 
