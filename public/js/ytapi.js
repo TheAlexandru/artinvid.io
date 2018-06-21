@@ -463,14 +463,14 @@ function showProfile(){
                         $('<div>').addClass('type-response').html(`${persInfo.id}`)
                       )
                       .append(
-                        $('<div>').addClass('type-name').attr('id','watched-stats').html('All time viewd')
+                        $('<div>').addClass('type-name').attr('id','watched-stats').html('Total watched time')
                       )
                       .append(
                         // $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} sec.`)
                         $('<div>').addClass('type-response').html(`${fancyTimeFormat(persInfo.watchStat)} `)
                       )
                       .append(
-                        $('<div>').addClass('type-name').attr('id','earned-user').html('Viewd Poits')
+                        $('<div>').addClass('type-name').attr('id','earned-user').html('Activity Points')
                       )
                       .append(
                         $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} VP`)
