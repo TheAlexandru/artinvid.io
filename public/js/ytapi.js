@@ -1,5 +1,5 @@
-// const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleusercontent.com";  old
-const clientID = "1063625321268-4tldsb031v5umjhn3q3cihrg3fuehsbk.apps.googleusercontent.com";
+// const clientID = "1063625321268-2aftgji9ascvn3hsvm33buu476dvnufp.apps.googleusercontent.com"; 
+const clientID = "1063625321268-0lh1am1i2frrq7hamii4ofrsl1qoc6r1.apps.googleusercontent.com";
 const socket = io();
 let channels =[];
 let titles = [];
