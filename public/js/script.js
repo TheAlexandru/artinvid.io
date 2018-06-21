@@ -65,7 +65,7 @@ function desktop(){
 	}
 
 	function loadSettings(){
-		alert('clicked settings');
+		// alert('clicked settings');
 	}
 
 	function loadProfile(){
@@ -93,13 +93,22 @@ function desktop(){
 		$(this).addClass('active');
 		newTab(this.id);
 	});
+
+	$( "#subs").click(function(){
+		window.location='/';
+	})
 	
 
 
 	//#### END LOADTABS ####
-
+	$(".search_btn").click(function(){
+			$('#content').html($('<div>').addClass('loader'));
+			
+		    searchPress = true;
+		    handleClientLoad();
+  	
+	});
 }
-
 
 
 function mobile(){

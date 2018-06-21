@@ -6,6 +6,8 @@ let totalResults = 0;
 let newvideos =[];
 var temp = 0;
 var playvideoID ='';
+let searchPress = false;
+
 
 /***** START BOILERPLATE CODE: Load client library, authorize user. *****/
 
@@ -177,7 +179,16 @@ var playvideoID ='';
       }
 
     }
+    if(type==='search'){
+      $('#content').html('');
+      $('#subs').removeClass('active');
+      for(var i = 0; i< response.items.length;i++){
+        
 
+        showVid(response.items[i]);
+      }
+      // console.log('show search ',response);
+    }
     });
   }
 
@@ -206,17 +217,28 @@ var playvideoID ='';
 
   
   function defineRequest() {
-    if(isSaved()){
-      console.log('SHOW OLD:', JSON.parse(localStorage.getItem('subsVidList')));
+    if(searchPress!==true){
+      if(isSaved()){
+        console.log('SHOW OLD:', JSON.parse(localStorage.getItem('subsVidList')));
+      }else{
+          buildApiRequest('GET',
+                  '/youtube/v3/subscriptions',
+                  {'mine': 'true',
+                    // 'order': 'unread',
+                    'maxResults': '50',
+                   'part': 'snippet,contentDetails'},'getsubs');
+        }
+        
+      
     }else{
-      buildApiRequest('GET',
-                '/youtube/v3/subscriptions',
-                {'mine': 'true',
-                  // 'order': 'unread',
-                  'maxResults': '50',
-                 'part': 'snippet,contentDetails'},'getsubs');
+      var keywords = $('.form-control').val();
+          buildApiRequest('GET',
+                  '/youtube/v3/search',
+                  {'maxResults': '15',
+                   'part': 'snippet',
+                   'q': keywords,
+                   'type': ''},'search');
     }
-    
 
   }
 
@@ -224,7 +246,6 @@ var playvideoID ='';
 
 //#### get all videos publishied after yesterday date, from each channel ####
 function getLastVideos(){
-  console.log('show videos');
   if(isSaved()){
     let savedvideos = JSON.parse(localStorage.getItem('subsVidList'));
   }else{
@@ -354,8 +375,10 @@ function sortVideos(){
 //#### Both DESKTOP and MOBILE ####
 
 function showVid(data,chn_nr){
-  if (('.login-panel').length==1){
-    $('#content').html('');
+  //#### search ####
+
+  if (('#content .login-panel').length > 0){
+    $('#content .login-panel').remove();
   }
   var row = $('.row');
   if(row.length < 1 || row === null || row === undefined){
@@ -363,32 +386,43 @@ function showVid(data,chn_nr){
     $('#content').append( row );
   }
   $('.vd-container').append(
-    $('<div>').addClass('col-sm-3 test').append($('<img>').attr('src',data.snippet.thumbnails.medium.url)).append(
+    $('<div>').addClass('col-sm-3 test').append($('<img>').attr({'src':`${data.snippet.thumbnails.medium.url}`,'id':`${data.id.videoId}`})
+    ).append(
         $('<h5>').addClass('vdtitle').html(data.snippet.title)
       ).append(
         $('<h6>').addClass('chn-name').html(data.snippet.channelTitle)
       )
-  );
+  )
 
   $('.vd-container .col-sm-3 img').click((event)=>{ 
     openVideoPlayer(event.target.id); 
   })
   
+    
+   
+  $('.search_btn').click(function(){
+    //clear page
+    $('#content').html($('<div>').addClass('loader'));
+    searchPress = true;
+    defineRequest();
+  });
   
 }
 
 //#### Show user profile ####
-function Person(id,photo,first, last, age, eye) {
+function Person(id,photo,first, last, total) {
     this.id = id;
     this.photo = photo;
     this.firstName = first;
     this.lastName = last;
+    this.watchStat = total;
 }
 
 function showProfile(){
   var persInfo = JSON.parse(localStorage.getItem('user'));
+  $('.container').html(
 
-  $('#content').html(
+    $('<div>').attr('id','content').css({'margin-top':'1px','height':'100%'}).html(
     $('<div>').addClass('panel-group profile_panel').append(
       $('<div>').addClass('panel panel-default').append(
           $('<div>').addClass('panel-heading').append(
@@ -430,7 +464,7 @@ function showProfile(){
                         $('<div>').addClass('type-name').attr('id','watched-stats').html('Watched time')
                       )
                       .append(
-                        $('<div>').addClass('type-response').html(`0000Y-00M-0W-00D-00H-00Min`)
+                        $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} sec.`)
                       )
                       .append(
                         $('<div>').addClass('type-name').attr('id','earned-user').html('Earned as user')
@@ -449,13 +483,19 @@ function showProfile(){
      
     )
   )
-
+)
+  
 
 
 }
 
 function saveProfile(data){
-  let userParam = new Person(data.w3.Eea, data.w3.Paa, data.w3.ofa, data.w3.wea, );
+  let old = JSON.parse(localStorage.getItem('user'));
+  let userParam = '';
+  let timeW = 0;
+  if(old !== undefined && old !== null){  timeW = old.watchStat; }
+  userParam = new Person(data.w3.Eea, data.w3.Paa, data.w3.ofa, data.w3.wea, timeW);
+  
   localStorage.setItem('user', JSON.stringify(userParam));
   // showProfile();
   
@@ -483,7 +523,7 @@ function loadLoginPanel(){
 //#### Open video player ####//
 function openVideoPlayer(id){
   // $('.menu_link active').removeClass('active');
-      playvideoID = id;
+      localStorage.setItem('VDID',id);
       window.location = 'player';
   }
   //end find video
@@ -536,12 +576,19 @@ function showvdPlayer(videoData){
 }
 
 
-
-
-// 
-
-
 //#### end video player ####//
+
+//#### search
+// function search(words){
+//   buildApiRequest('GET',
+//                 '/youtube/v3/search',
+//                 {'maxResults': '15',
+//                  'part': 'snippet',
+//                  'q': `${words}`,
+//                  'type': ''},'words');
+
+// }
+
 
 
 
