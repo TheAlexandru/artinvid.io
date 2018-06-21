@@ -503,10 +503,9 @@ function fancyTimeFormat(time){
     var ret = "";
 
     if (hrs > 0) {
-        ret += "" + hrs +'h ' + ":" + (mins < 10 ? "0" : "");
+        ret += "" + hrs +'h' + " : " + (mins < 10 ? "0" : "");
     }
-
-    ret += "" + mins+'m ' + ":" + (secs < 10 ? "0" : "");
+    ret += "" + mins+'m' + " : " + (secs < 10 ? "0" : "");
     ret += "" + secs+'s ';
     return ret;
 }
