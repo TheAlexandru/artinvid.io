@@ -421,6 +421,7 @@ function Person(id,photo,first, last, total) {
 
 function showProfile(){
   var persInfo = JSON.parse(localStorage.getItem('user'));
+
   $('.container').html(
 
     $('<div>').attr('id','content').css({'margin-top':'1px','height':'100%'}).html(
@@ -465,7 +466,8 @@ function showProfile(){
                         $('<div>').addClass('type-name').attr('id','watched-stats').html('Watched time')
                       )
                       .append(
-                        $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} sec.`)
+                        // $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} sec.`)
+                        $('<div>').addClass('type-response').html(`${fancyTimeFormat(persInfo.watchStat)} Activity Time`)
                       )
                       .append(
                         $('<div>').addClass('type-name').attr('id','earned-user').html('Earned as user')
@@ -488,6 +490,24 @@ function showProfile(){
   
 
 
+}
+
+function fancyTimeFormat(time){   
+    // Hours, minutes and seconds
+    var hrs = ~~(time / 3600);
+    var mins = ~~((time % 3600) / 60);
+    var secs = time % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    var ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+    return ret;
 }
 
 function saveProfile(data){
