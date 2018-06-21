@@ -463,24 +463,30 @@ function showProfile(){
                         $('<div>').addClass('type-response').html(`${persInfo.id}`)
                       )
                       .append(
-                        $('<div>').addClass('type-name').attr('id','watched-stats').html('Watched time')
+                        $('<div>').addClass('type-name').attr('id','watched-stats').html('All time viewd')
                       )
                       .append(
                         // $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} sec.`)
                         $('<div>').addClass('type-response').html(`${fancyTimeFormat(persInfo.watchStat)} `)
                       )
                       .append(
-                        $('<div>').addClass('type-name').attr('id','earned-user').html('Earned as user')
+                        $('<div>').addClass('type-name').attr('id','earned-user').html('Viewd Poits')
                       )
                       .append(
-                        $('<div>').addClass('type-response').html(`0 ARTA`)
+                        $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} VP`)
                       )
                       .append(
-                        $('<div>').addClass('type-name').attr('id','earned-atuthor').html('Earned as author')
+                        $('<div>').addClass('type-name').attr('id','earned-atuthor').html('Content Points')
                       )
                       .append(
-                        $('<div>').addClass('type-response').html(`0 ARTA`)
-                      )   
+                        $('<div>').addClass('type-response').html(`0 CP`)
+                      )
+                      .append(
+                        $('<div>').addClass('type-name').attr('id','balance').html('Balance')
+                      )
+                      .append(
+                        $('<div>').addClass('type-response').html(`0 COP`)
+                      )     
              )
       )
      
