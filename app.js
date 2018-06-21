@@ -27,10 +27,10 @@ app.get('/player', function (req, res) {
 
 io.on('connection',(client)=>{
 	client.on('openVD',(data)=>{
-		console.log('play video',data)
+		// console.log('play video',data)
 		// ytAPI.handleClientLoad();
 		// console.log('hei');
 	})
 })
 
-server.listen(3000);
+server.listen(80);
