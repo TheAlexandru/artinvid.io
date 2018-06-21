@@ -467,7 +467,7 @@ function showProfile(){
                       )
                       .append(
                         // $('<div>').addClass('type-response').html(`${persInfo.watchStat.toLocaleString('en')} sec.`)
-                        $('<div>').addClass('type-response').html(`${fancyTimeFormat(persInfo.watchStat)} Activity Time`)
+                        $('<div>').addClass('type-response').html(`${fancyTimeFormat(persInfo.watchStat)} `)
                       )
                       .append(
                         $('<div>').addClass('type-name').attr('id','earned-user').html('Earned as user')
@@ -492,6 +492,7 @@ function showProfile(){
 
 }
 
+//#### Calculate watched time ####
 function fancyTimeFormat(time){   
     // Hours, minutes and seconds
     var hrs = ~~(time / 3600);
@@ -502,13 +503,14 @@ function fancyTimeFormat(time){
     var ret = "";
 
     if (hrs > 0) {
-        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+        ret += "" + hrs +'h ' + ":" + (mins < 10 ? "0" : "");
     }
 
-    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
-    ret += "" + secs;
+    ret += "" + mins+'m ' + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs+'s ';
     return ret;
 }
+//#### end calculate ####
 
 function saveProfile(data){
   let old = JSON.parse(localStorage.getItem('user'));
